@@ -1,14 +1,19 @@
 package com.example.job_project.entity;
 
 
+import com.google.gson.Gson;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.mapping.Collection;
 
-
+import com.example.job_project.jsonTest;
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,13 +29,8 @@ public class Market {
     private int level;
     private String address;
     private String phone;
-    @OneToMany
-    private ArrayList<Business> BusinessTimes = new ArrayList<Business>();
-
-
-
-
-
+    @ElementCollection
+    private List<Business> businessTimes = new ArrayList<>();
 
 
     public String getName() {
@@ -87,70 +87,5 @@ public class Market {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-}
-@Entity
-class Business {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int number;
-
-    public void setMarketId(int marketId) {
-        this.marketId = marketId;
-    }
-
-    private int marketId;
-    private String day;
-    private Time open;
-    private Time close;
-    private boolean holiday;
-    private  String businessStatus;
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
-    }
-
-    public String getDay() {
-        return day;
-    }
-
-    public void setOpen(Time open) {
-        this.open = open;
-    }
-
-    public Time getOpen() {
-        return open;
-    }
-
-    public void setClose(Time close) {
-        this.close = close;
-    }
-
-    public Time getClose() {
-        return close;
-    }
-
-    public void setHoliday(boolean holiday) {
-        this.holiday = holiday;
-    }
-
-    public String getBusinessStatus() {
-        return businessStatus;
-    }
-
-    public void setBusinessStatus(String businessStatus) {
-        this.businessStatus = businessStatus;
-    }
-
-    public int getMarketId() {
-        return marketId;
     }
 }

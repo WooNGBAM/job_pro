@@ -3,14 +3,16 @@ package com.example.job_project;
 import com.example.job_project.dao.MarketRepository;
 import com.example.job_project.entity.Market;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.Map;
 
 
 @RestController
 public class MarketControler{
-    @Autowired
+
     private MarketRepository repository;
 
     public MarketControler(MarketRepository repository) {
@@ -26,10 +28,9 @@ public class MarketControler{
 
 
     @PostMapping(value = "/market")
-    public Object postMarket(Market market){
+    public Market postMarket(@RequestBody Market market){
 
-        repository.save(market);
-        return market.getId();
+        return repository.save(market);
     }
 
     @DeleteMapping(value = "/market")
