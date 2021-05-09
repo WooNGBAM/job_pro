@@ -2,25 +2,34 @@ package com.example.job_project;
 
 import com.example.job_project.dao.MarketRepository;
 import com.example.job_project.entity.Market;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
 
 @RestController
 public class MarketControler{
+    @Autowired
     private MarketRepository repository;
 
     public MarketControler(MarketRepository repository) {
         this.repository = repository;
     }
 
+
     @PutMapping(value = "/market")
     public Market putMarket(Market market){
+
         return repository.save(market);
     }
 
 
     @PostMapping(value = "/market")
-    public Market postMarket(Market market){
-        return repository.save(market);
+    public Object postMarket(Market market){
+
+        repository.save(market);
+        return market.getId();
     }
 
     @DeleteMapping(value = "/market")
@@ -33,9 +42,5 @@ public class MarketControler{
         return repository.findById(id).orElse(null);
     }
 
-    @GetMapping(value = "/market/name")
-    public Market getMarket(String name){
-        return repository.findByName(name);
-    }
 
 }
