@@ -9,6 +9,7 @@ public class JobProjectApplication {
     public static void main(String[] args) {
 
         SpringApplication.run(JobProjectApplication.class, args);
+
     }
 
 }

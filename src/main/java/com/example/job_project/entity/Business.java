@@ -16,6 +16,7 @@ public class Business {
     private boolean holiday;
     private  String businessStatus;
 
+
     public void addDay(String day){
         this.day = day;
     }

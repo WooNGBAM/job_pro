@@ -20,6 +20,7 @@ public class MarketControler{
     }
 
 
+
     @PutMapping(value = "/market")
     public Market putMarket(Market market){
 

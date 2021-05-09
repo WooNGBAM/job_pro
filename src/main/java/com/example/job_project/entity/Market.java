@@ -33,6 +33,7 @@ public class Market {
     private List<Business> businessTimes = new ArrayList<>();
 
 
+
     public String getName() {
         return name;
     }
