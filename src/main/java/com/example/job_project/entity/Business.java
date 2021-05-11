@@ -1,69 +1,41 @@
 package com.example.job_project.entity;
 
 
+
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Calendar;
 
+@Getter
+@Setter
 @Embeddable
 public class Business {
-    private int number;
     private String day;
-    private Time open;
-    private Time close;
-    private boolean holiday;
-    private  String businessStatus;
+    private String open;
+    private String close;
+    private String businessStatus;
 
 
-    public void addDay(String day){
-        this.day = day;
+
+    public void setBusinessStatus(Market market){
+        Calendar holiday = Calendar.getInstance();
+        String year = Integer.toString(holiday.get(Calendar.YEAR));
+        String month = Integer.toString(holiday.get(Calendar.MONTH)+1);
+        String day = Integer.toString(holiday.get(Calendar.DAY_OF_MONTH));
+        String date = year+"-"+month+"-"+day;
+
+
+
+        if(date.equals(market.getHolidays())){
+
+        }
     }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
-    }
-
-    public String getDay() {
-        return day;
-    }
-
-    public void setOpen(Time open) {
-        this.open = open;
-    }
-
-    public Time getOpen() {
-        return open;
-    }
-
-    public void setClose(Time close) {
-        this.close = close;
-    }
-
-    public Time getClose() {
-        return close;
-    }
-
-    public void setHoliday(boolean holiday) {
-        this.holiday = holiday;
-    }
-
     public String getBusinessStatus() {
+
         return businessStatus;
     }
 
-    public void setBusinessStatus(String businessStatus) {
-        this.businessStatus = businessStatus;
-    }
-
-
 }
+

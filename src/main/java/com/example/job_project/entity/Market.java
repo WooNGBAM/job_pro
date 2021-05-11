@@ -1,19 +1,13 @@
 package com.example.job_project.entity;
 
 
-import com.google.gson.Gson;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.mapping.Collection;
+import org.json.simple.JSONArray;
 
-import com.example.job_project.jsonTest;
 import javax.persistence.*;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -22,71 +16,46 @@ import java.util.Set;
 public class Market {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private int id;
-    private String name;
-    private String owner;
-    private String description;
-    private int level;
-    private String address;
-    private String phone;
-    @ElementCollection
-    private List<Business> businessTimes = new ArrayList<>();
-
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public int getId() {
-        return id;
-    }
 
     public void setId(int id) {
+
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "OWNER")
+    private String owner;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Column(name = "LEVEL")
+    private int level;
+
+    @Column(name = "ADDRESS")
+    private String address;
+
+    @Column(name = "PHONE")
+    private String phone;
+
+    @ElementCollection
+    private List<Business> businessTimes = new ArrayList<Business>();
+    @ElementCollection
+    private List<String> holidays = new ArrayList<String>();
+    @ElementCollection
+    private List<SimpleList> list = new ArrayList<SimpleList>();
+
+
+    public  void setHolidays(List<String> market) {
+
+        this.holidays = market;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public List<String> getHolidays() {
+        return holidays;
     }
 }
