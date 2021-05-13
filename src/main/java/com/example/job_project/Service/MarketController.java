@@ -22,8 +22,10 @@ public class MarketController {
         this.repository = repository;
     }
 
-    @Transactional
-    @PostMapping("/holi")//휴무일 등록
+
+    //휴무일 등록
+    @Transactional // 직접적인 수정 ex)UPDATE 수행시 필요
+    @PostMapping("/holi")
     public void postMarketHoliday(@RequestBody Market holiday){
         System.out.println(holiday.getHolidays().getClass());
         SimpleDateFormat dataParser = new SimpleDateFormat("yyyy-MM-dd");
@@ -34,27 +36,34 @@ public class MarketController {
         }
 
     }
-    @PostMapping//점포등록
+
+    //점포등록
+    @PostMapping
     public Market postMarket(@RequestBody(required = false) Market marketT){
 
         return repository.save(marketT);
     }
 
-    @DeleteMapping//점포삭제
+    //점포삭제
+    @DeleteMapping
     public String deleteMarket(int id){
         repository.deleteById(id);
         String tmpTxt = "id : ";
         String tmpId = Integer.toString(id);
         return tmpTxt + tmpId;
     }
+
+    //레벨 오름차순 정렬
     @GetMapping("/testttt")
-    public List<Market> getMarketLevel(){//레벨 오름차순 정렬
+    public List<Market> getMarketLevel(){
         return (List<Market>) repository.findAllByOrderByLevelAsc();
     }
 
 
 
-    @GetMapping("/search")//간략화 할것/ for문 size()대신 객체사용(코짜님 조언)/return
+
+    //점포 목록 조회
+    @GetMapping("/search")
     public List<SimpleList> getMarketSimple() throws ParseException {
 
         List<SimpleList> simpleLists = new ArrayList<SimpleList>();
