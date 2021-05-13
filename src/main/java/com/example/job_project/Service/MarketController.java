@@ -22,10 +22,6 @@ public class MarketController {
         this.repository = repository;
     }
 
-    //점포 상세정보 조회 必
-
-
-
     @Transactional
     @PostMapping("/holi")//휴무일 등록
     public void postMarketHoliday(@RequestBody Market holiday){
@@ -51,19 +47,8 @@ public class MarketController {
         String tmpId = Integer.toString(id);
         return tmpTxt + tmpId;
     }
-
-    @GetMapping
-    public List<Market> getMarket(){
-
-        System.out.println(repository.findAll().getClass());
-
-        return (List<Market>) repository.findAll();
-
-    }
     @GetMapping("/testttt")
-    public List<Market> getMarketLevel(){
-        //List<Market> list = (List<Market>) repository.findAll(Sort.by(Sort.Direction.ASC,"level"));
-
+    public List<Market> getMarketLevel(){//레벨 오름차순 정렬
         return (List<Market>) repository.findAllByOrderByLevelAsc();
     }
 
