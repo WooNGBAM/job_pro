@@ -7,12 +7,13 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.List;
 
 @Getter
 @Setter
 @Embeddable
 public class Business {
-    private String day;
+    private String day;//요일임
     private String open;
     private String close;
     private String businessStatus;
@@ -31,10 +32,6 @@ public class Business {
         if(date.equals(market.getHolidays())){
 
         }
-    }
-    public String getBusinessStatus() {
-
-        return businessStatus;
     }
 
 }

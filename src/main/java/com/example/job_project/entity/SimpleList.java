@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Id;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -14,4 +16,10 @@ public class SimpleList {
     private int level;
     private String businessStatus;
 
+    public void setBusinessStatus(String businessStatus) {
+        Date date = new Date();
+
+
+        this.businessStatus = businessStatus;
+    }
 }

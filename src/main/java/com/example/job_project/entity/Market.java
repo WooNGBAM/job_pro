@@ -45,17 +45,12 @@ public class Market {
     @ElementCollection
     private List<Business> businessTimes = new ArrayList<Business>();
     @ElementCollection
-    private List<String> holidays = new ArrayList<String>();
-    @ElementCollection
-    private List<SimpleList> list = new ArrayList<SimpleList>();
+    @Temporal(TemporalType.DATE)
+    private List<Date> holidays = new ArrayList<Date>();
 
 
-    public  void setHolidays(List<String> market) {
 
-        this.holidays = market;
-    }
-
-    public List<String> getHolidays() {
-        return holidays;
-    }
 }
+
+
+
