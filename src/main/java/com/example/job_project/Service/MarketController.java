@@ -10,8 +10,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
+/********************************************************************
+ * 전체적으로 Date, Calender 대신 LocalTime, LocalDate 사용할것
+ * 요일검색 LIKE검색 활용할 것
+ *
+ *
+ *
+ *
+ *
+ *
+ ********************************************************************/
 @RestController
 @RequestMapping("/market")
 public class MarketController {
@@ -69,7 +81,10 @@ public class MarketController {
         List<SimpleList> simpleLists = new ArrayList<SimpleList>();
         Date today = new Date();
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat dayOfWeek = new SimpleDateFormat("E");
         System.out.println(repository.findById(1).get());
+        LocalTime lT = LocalTime.now();
         int size = repository.findAllByOrderByLevelAsc().size();
 
         for(int i = 0 ; i<size ; i++) {
@@ -81,8 +96,10 @@ public class MarketController {
 
             if(repository.existsByHoli(rp.getId(), date.format(today))){ //휴무일 여부 확인
                 simple.setBusinessStatus("HOLIDAY");
+            }else if(repository.findByIdOpen(rp.getId(), dayOfWeek.format(today)).isBefore(lT) && lT.isBefore(repository.findByIdClose(rp.getId(), dayOfWeek.format(today)))){
+                simple.setBusinessStatus("OPEN");
+                    //영업시간인지 확인 필요함 Date()의 before, after활용하기 / 요일에 따른 영업시간 가져오기
             }else{
-                //if(개점시각.isbefore(현재시각) && 현재시각.isbefore(폐점시각))//영업시간인지 확인 필요함 Date()의 before, after활용하기 / 요일에 따른 영업시간 가져오기
                 simple.setBusinessStatus("CLOSE");
             }
 
@@ -117,7 +134,7 @@ public class MarketController {
             if(dd+i>7){
                 dd = dd - 7;
             }
-            switch (dd+i){ // Calender.day_of_week는 1이 일요일 / 컬럼에서는 index(0)가 월요일로 지정되어있음 / 개선사항 : 월요일에 영업을 하지않는경우 오류발생
+            switch (dd+i){ // Calender.day_of_week는 1이 일요일 / 컬럼에서는 index(0)가 월요일로 지정되어있음 / 개선사항 : 월요일에 영업을 하지않는경우 오류발생 /LIKE검색 활용
                 default:ff = 5;  break;
                 case 2: ff = 0; break;
                 case 3: ff = 1; break;
