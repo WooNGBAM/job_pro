@@ -5,18 +5,21 @@ import com.example.job_project.entity.Business;
 import com.example.job_project.entity.Market;
 import com.example.job_project.entity.SimpleList;
 import com.example.job_project.entity.SpecList;
+
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /********************************************************************
  * 전체적으로 Date, Calender 대신 LocalTime, LocalDate 사용할것
- * 요일검색 LIKE검색 활용할 것
+ *
  *
  *
  *
@@ -76,13 +79,13 @@ public class MarketController {
 
     //점포 목록 조회
     @GetMapping("/search")
-    public List<SimpleList> getMarketSimple() throws ParseException {
+    public List<SimpleList> getMarketSimple() {
 
         List<SimpleList> simpleLists = new ArrayList<SimpleList>();
-        Date today = new Date();
+        LocalDate today = LocalDate.now();
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat time = new SimpleDateFormat("HH:mm");
-        SimpleDateFormat dayOfWeek = new SimpleDateFormat("E");
+        SimpleDateFormat dayOfWeek = new SimpleDateFormat("E", Locale.ENGLISH);
         System.out.println(repository.findById(1).get());
         LocalTime lT = LocalTime.now();
         int size = repository.findAllByOrderByLevelAsc().size();
@@ -94,15 +97,17 @@ public class MarketController {
             simple.setDescription(rp.getDescription());
             simple.setLevel(rp.getLevel());
 
-            if(repository.existsByHoli(rp.getId(), date.format(today))){ //휴무일 여부 확인
-                simple.setBusinessStatus("HOLIDAY");
-            }else if(repository.findByIdOpen(rp.getId(), dayOfWeek.format(today)).isBefore(lT) && lT.isBefore(repository.findByIdClose(rp.getId(), dayOfWeek.format(today)))){
-                simple.setBusinessStatus("OPEN");
-                    //영업시간인지 확인 필요함 Date()의 before, after활용하기 / 요일에 따른 영업시간 가져오기
-            }else{
-                simple.setBusinessStatus("CLOSE");
-            }
 
+
+
+            System.out.println(size);
+            System.out.println(rp.getId()+"  "+dayOfWeek.format(today)+"  ");
+            System.out.println(lT);
+            System.out.println(lT);
+            System.out.println(repository.findByIdOpen(rp.getId(), dayOfWeek.format(today)));//쿼리 수행 후 리턴값 null... 왜?//
+
+
+            simple.setBusinessStatus(setBusiStat(rp.getId(), today));
             simpleLists.add(simple);
         }
         return simpleLists;
@@ -127,28 +132,45 @@ public class MarketController {
 
         //specList.setBusinessDays();
         for(int i = 0;i<3;i++){
-            Calendar today = Calendar.getInstance();
-            int dd = today.get(Calendar.DAY_OF_WEEK);
-            int ff = 0;
-            String dayOfWeek = "";
-            if(dd+i>7){
-                dd = dd - 7;
-            }
-            switch (dd+i){ // Calender.day_of_week는 1이 일요일 / 컬럼에서는 index(0)가 월요일로 지정되어있음 / 개선사항 : 월요일에 영업을 하지않는경우 오류발생 /LIKE검색 활용
-                default:ff = 5;  break;
-                case 2: ff = 0; break;
-                case 3: ff = 1; break;
-                case 4: ff = 2; break;
-                case 5: ff = 3; break;
-                case 6: ff = 4; break;
+            Business weekEnd = new Business();
+            weekEnd.setBusinessStatus("WEEKEND");
+            weekEnd.setClose(null);
+            weekEnd.setOpen(null);
+            LocalDate localDate = LocalDate.now();
+            System.out.println(localDate.getDayOfWeek().getValue());
+            LocalDate loD = localDate.plusDays(i);
+            String date = loD.format(DateTimeFormatter.ofPattern("E", Locale.ENGLISH));
+            System.out.println(date);
+            System.out.println(rp.getBusinessTimes().get(0));
+            if(loD.getDayOfWeek().getValue() == 6){
+                weekEnd.setDay("Saturday");
+                lB.add(weekEnd);
+            }else if(loD.getDayOfWeek().getValue() == 7){
+                weekEnd.setDay("Sunday");
+                lB.add(weekEnd);
+            }else{
+                lB.add(rp.getBusinessTimes().get(loD.getDayOfWeek().getValue()-1));
+                lB.get(i).setBusinessStatus(setBusiStat(id, loD));
             }
 
-            if(ff !=5) {
-                lB.add(rp.getBusinessTimes().get(ff));
-            }
+
+
         }
         specList.setBusinessDays(lB);
         return specList;
+    }
+    public String setBusiStat(int id, LocalDate today){ //id와 오늘날짜를 받아 현재 영업여부 판단
+        LocalTime lT = LocalTime.now();
+        String date = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String dayOfWeek = today.format(DateTimeFormatter.ofPattern("E", Locale.ENGLISH));
+        if(repository.existsByHoli(id, date)){ //휴무일 여부 확인
+            return "HOLIDAY";
+        }else if(repository.findByIdOpen(id, dayOfWeek).isBefore(lT) && lT.isBefore(repository.findByIdClose(id, dayOfWeek))){
+            return "OPEN";
+        }else{
+            return "CLOSE";
+        }
+
     }
 
 

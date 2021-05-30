@@ -49,7 +49,6 @@ public class Market {
     private List<Date> holidays = new ArrayList<Date>();
 
 
-
 }
 
 

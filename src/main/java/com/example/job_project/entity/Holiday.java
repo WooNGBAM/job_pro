@@ -4,15 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Embeddable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 @Getter
 @Setter
 @Embeddable
 public class Holiday {
-    private Date holidays;
+    private LocalDate holidays;
 
 }
