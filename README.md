@@ -18,4 +18,7 @@
 # 2. 테이블 생성 SQL     
 
 ### Market 테이블 
-![Alt text](https://imgdb.in/iDGn.png)
+![Alt text](https://imgdb.in/iDGn.png)   
+
+### Market_Business_Times 테이블   
+![Alt text](https://imgdb.in/iDGs.png)
