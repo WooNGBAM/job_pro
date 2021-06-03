@@ -19,13 +19,13 @@
 
 # 2. 테이블 생성   
 
-### *Market 테이블 
+### * Market 테이블 
 ![Alt text](https://imgdb.in/iDGn.png)   
 
-### *Market_Business_Times 테이블   
+### * Market_Business_Times 테이블   
 ![Alt text](https://imgdb.in/iDGs.png)
 
-### *Market_Holiday 테이블
+### * Market_Holiday 테이블
 ![Alt text](https://imgdb.in/iDGt.png)
 
 # 3. API 사용 가이드   
