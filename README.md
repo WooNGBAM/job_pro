@@ -15,10 +15,13 @@
 ## 1.4 데이터베이스     
 ### H2 Database
 
-# 2. 테이블 생성 SQL     
+# 2. 테이블 생성   
 
 ### Market 테이블 
 ![Alt text](https://imgdb.in/iDGn.png)   
 
 ### Market_Business_Times 테이블   
 ![Alt text](https://imgdb.in/iDGs.png)
+
+### Market_Holiday 테이블
+![Alt text](https://imgdb.in/iDGt.png)
