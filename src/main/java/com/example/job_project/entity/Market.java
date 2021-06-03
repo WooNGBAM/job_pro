@@ -4,7 +4,6 @@ package com.example.job_project.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.json.simple.JSONArray;
 
 import javax.persistence.*;
 import java.util.*;
@@ -18,11 +17,6 @@ public class Market {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-
-    public void setId(int id) {
-
-        this.id = id;
-    }
 
     @Column(name = "NAME")
     private String name;
@@ -44,10 +38,10 @@ public class Market {
 
     @ElementCollection
     private List<Business> businessTimes = new ArrayList<Business>();
+
     @ElementCollection
     @Temporal(TemporalType.DATE)
     private List<Date> holidays = new ArrayList<Date>();
-
 
 }
 
