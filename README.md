@@ -17,5 +17,5 @@
 
 # 2. 테이블 생성 SQL     
 
-### Market 
+### Market 테이블 
 ![Alt text](https://imgdb.in/iDGn.png)
